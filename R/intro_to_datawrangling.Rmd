@@ -17,13 +17,26 @@ When you click the **Knit** button a document will be generated that includes bo
 
 Note that `echo = FALSE`, when added to the code chunk, prevents printing of the R code that generated the output.
 
-## Read in data
+## Load libs/packages
+
 ```{r}
+
 library(readr)
 library(tidyverse)
 
-# read in data from the Internet
+```
+
+## Read in data
+
+"These Community Mobility Reports aim to provide insights into what has changed in response to policies aimed at combating COVID-19. The reports chart movement trends over time by geography, across different categories of places such as retail and recreation, groceries and pharmacies, parks, transit stations, workplaces, and residential."
+
+[Learn More](https://www.google.com/covid19/mobility/)
+
+```{r}
+# read in the Google Mobility dataset
 google_mobility <- read_csv("https://www.gstatic.com/covid19/mobility/Global_Mobility_Report.csv")
+
+#google_mobility_byregion = "https://www.gstatic.com/covid19/mobility/Region_Mobility_Report_CSVs.zip"
 
 ```
 
@@ -117,4 +130,12 @@ typeof(dt_qe_rd)
 ```
 
 
-## Get cheatsheets on using various R packages
+## Download cheatsheets on using various R packages
+[R Markdown](https://github.com/rstudio/cheatsheets/raw/master/rmarkdown.pdf)
+[Data Wrangling Cheatsheet](https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf)
+[Data Transformation with dplyr](https://github.com/rstudio/cheatsheets/raw/master/data-visualization.pdf)
+[Data Import](https://github.com/rstudio/cheatsheets/raw/master/data-import.pdf)
+[String Manipulation](https://github.com/rstudio/cheatsheets/raw/master/strings.pdf)
+[Work with dates/times](https://github.com/rstudio/cheatsheets/raw/master/lubridate.pdf)
+[More cheatsheets](https://www.rstudio.com/resources/cheatsheets/)
+
