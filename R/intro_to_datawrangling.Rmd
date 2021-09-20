@@ -1,0 +1,120 @@
+---
+title: "Intro to Data Wrangling - R"
+author: "Nelson Roque"
+date: "9/20/2021"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Intro to R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+Note that `echo = FALSE`, when added to the code chunk, prevents printing of the R code that generated the output.
+
+## Read in data
+```{r}
+library(readr)
+library(tidyverse)
+
+# read in data from the Internet
+google_mobility <- read_csv("https://www.gstatic.com/covid19/mobility/Global_Mobility_Report.csv")
+
+```
+
+## Pre-process data
+ 
+```{r}
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+# filter for US
+google_mobility_US <- google_mobility %>%
+  filter(country_region == "United States")
+
+
+```
+
+# Get simple descriptives
+```{r}
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+table(google_mobility_US$sub_region_1)
+table(google_mobility_US$sub_region_2)
+
+# count number of missing data records for this specific column
+table(is.na(google_mobility_US$sub_region_2))
+
+# get proportion of missing data records for this specific column
+prop.table(table(is.na(google_mobility_US$sub_region_1)))
+prop.table(table(is.na(google_mobility_US$sub_region_2)))
+
+# get proportion of null records for this specific column
+prop.table(table(is.null(google_mobility_US$sub_region_2)))
+
+```
+
+
+## Compute aggregates
+```{r}
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+# filter 
+google_mobility_US_NY <- google_mobility_US %>%
+  filter(sub_region_1 == "New York")
+
+# add an additional column
+google_mobility_US_NY_cc <- google_mobility_US_NY %>%
+  mutate(dt_date = date) %>%
+  mutate(dt_month = lubridate::month(dt_date),
+         dt_year= lubridate::year(dt_date),
+         #dt_doy = lubridate::doy(dt_date),
+         dt_day = lubridate::day(dt_date),
+         dt_wkday_l = lubridate::wday(dt_date, label=T),
+         dt_wkday_n = lubridate::wday(dt_date))
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+# group data by weekday
+google_mobility_US_NY_cc_grouped <- google_mobility_US_NY_cc %>%
+  group_by(dt_wkday_l) %>%
+  summarise(avg_change = mean(parks_percent_change_from_baseline, na.rm=T))
+
+# TODO: replicate above, with month
+# TODO: replicate above, with month, year
+
+```
+
+## Visualize the data
+
+```{r}
+
+# plot grouped weekday data
+ggplot(google_mobility_US_NY_cc_grouped, aes(dt_wkday_l, avg_change)) +
+  geom_bar(stat="identity") +
+  theme_minimal()
+
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+# rename current column to new name
+google_mobility_US_NY_cc_r <- google_mobility_US_NY %>%
+  rename(`dt_date` = "date")
+
+# when lubridate doesnt work, sometimes you need to 
+# manually re-type the data
+
+dt_qe <- "1991-05-16" 
+dt_qe_rd <- as.POSIXct(dt_qe)
+typeof(dt_qe)
+typeof(dt_qe_rd)
+
+```
+
+
+## Get cheatsheets on using various R packages
