@@ -9,6 +9,15 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+# Overview
+
+The goals of this workshop include:
+  - Learn about data wrangling principles (e.g., tidy data)
+  - Import, pre-process & visualize data using R
+  - Share recommended readings, activities for continued learning
+
+[Click Here for Workshop Slides](https://ucf-my.sharepoint.com/:p:/g/personal/ne612914_ucf_edu/EfT1stHIoLtLtGBJM0ke1gEBQUf_px34eSKH4GMtNIgIBg?e=gfgN2L)
+
 ## Intro to R Markdown
 
 This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
@@ -81,13 +90,13 @@ prop.table(table(is.null(google_mobility_US$sub_region_2)))
 
 ```{r}
 
-skimr::glance(google_mobility_US)
+skimr::skim(google_mobility_US)
 
 ```
 
 ## Filter data
 ```{r}
-# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
 
 # filter with specific entries
 google_mobility_US_NY <- google_mobility_US %>%
@@ -96,6 +105,7 @@ google_mobility_US_NY <- google_mobility_US %>%
 google_mobility_US_FL <- google_mobility_US %>%
   filter(sub_region_1 == "Florida")
 
+# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 # filter to a 'vector' of entries
 google_mobility_US_targeted <- google_mobility_US %>%
@@ -106,6 +116,10 @@ google_mobility_US_targeted <- google_mobility_US %>%
 ## Compute aggregates
 
 ```{r}
+
+records_per_state_by_placeid = google_mobility_US %>%
+  group_by(sub_region_1, place_id) %>%
+  summarise(n_records = n())
 
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
@@ -149,28 +163,44 @@ ggplot(metrics_month_day_of_week, aes(dt_month, avg_change_workplaces)) +
   facet_wrap(sub_region_1 ~ dt_year, ncol = 2)
 
 ```
-
-# Styling your plots
-```{r}
-
-```
-
-
 # Combining multiple plots
 ```{r}
 library(cowplot)
 
 # create a plot of weekly trends
-ggplot(google_mobility_US_targeted %>%
-         filter(dt_month == 3), aes(dt_date, 
+early_covid_retail = ggplot(google_mobility_US_targeted %>%
+         filter(dt_month %in% c(1,2,3,4,5)) %>%
+         filter(dt_year == 2020), aes(dt_date, 
                                     retail_and_recreation_percent_change_from_baseline,
                                     color=sub_region_1)) +
   #geom_point() +
   geom_jitter() +
   theme_minimal() +
-  facet_wrap(dt_year~sub_region_1)
+  facet_wrap(.~sub_region_1)
+
+early_covid_workplaces = ggplot(google_mobility_US_targeted %>%
+         filter(dt_month %in% c(1,2,3,4,5)) %>%
+         filter(dt_year == 2020), aes(dt_date, 
+                                    workplaces_percent_change_from_baseline,
+                                    color=sub_region_1)) +
+  #geom_point() +
+  geom_jitter() +
+  theme_minimal() +
+  facet_wrap(.~sub_region_1)
+
+nxtyear_covid_retail = ggplot(google_mobility_US_targeted %>%
+         filter(dt_month %in% c(1,2,3,4,5)) %>%
+         filter(dt_year == 2021), aes(dt_date, 
+                                    retail_and_recreation_percent_change_from_baseline,
+                                    color=sub_region_1)) +
+  #geom_point() +
+  geom_jitter() +
+  theme_minimal() +
+  facet_wrap(.~sub_region_1)
+
   
-# create a plot of monthly trends
+cowplot::plot_grid(early_covid_retail, early_covid_workplaces, ncol=1)
+cowplot::plot_grid(nxtyear_covid_retail, early_covid_workplaces, ncol=1)
 
 
 # retail_and_recreation_percent_change_from_baseline = col_double(),
@@ -182,6 +212,80 @@ ggplot(google_mobility_US_targeted %>%
 
 ```
 
+
+# Styling your plots
+```{r}
+early_covid_period_data = google_mobility_US_targeted %>%
+         filter(dt_month %in% c(1,2,3,4,5)) %>%
+         filter(dt_year == 2020)
+
+ggplot(early_covid_period_data, aes(dt_date, 
+                                    retail_and_recreation_percent_change_from_baseline,
+                                    color=sub_region_1)) +
+  geom_jitter() +
+  facet_wrap(.~sub_region_1)
+
+ggplot(early_covid_period_data, aes(dt_date, 
+                                    retail_and_recreation_percent_change_from_baseline,
+                                    color=sub_region_1)) +
+  #geom_point() +
+  theme_bw() +
+  geom_jitter() +
+  facet_wrap(.~sub_region_1)
+
+ggplot(early_covid_period_data, aes(dt_date, 
+                                    retail_and_recreation_percent_change_from_baseline,
+                                    color=sub_region_1)) +
+  #geom_point() +
+  theme_dark() +
+  geom_jitter() +
+  facet_wrap(.~sub_region_1)
+
+ggplot(early_covid_period_data, aes(dt_date, 
+                                    retail_and_recreation_percent_change_from_baseline,
+                                    color=sub_region_1)) +
+  #geom_point() +
+  theme_void() +
+  geom_jitter() +
+  facet_wrap(.~sub_region_1) +
+  theme(legend.position = "none")
+```
+
+# Production plot
+
+```{r}
+ggplot(early_covid_period_data, aes(dt_date, 
+                                    retail_and_recreation_percent_change_from_baseline,
+                                    color=sub_region_1)) +
+  #geom_point() +
+  theme_bw() +
+  geom_jitter() +
+  facet_wrap(.~sub_region_1) +
+  labs(x= "Date", y="Retail & Recreation (% Change)")
+
+ggplot(early_covid_period_data, aes(dt_date, 
+                                    retail_and_recreation_percent_change_from_baseline,
+                                    color=sub_region_1)) +
+  #geom_point() +
+  geom_jitter() +
+  facet_wrap(.~sub_region_1) +
+  labs(x= "Date", y="Retail & Recreation (% Change)") +
+  theme_bw(base_size = 16)
+
+ggplot(early_covid_period_data, aes(dt_date, 
+                                    retail_and_recreation_percent_change_from_baseline,
+                                    color=sub_region_1)) +
+  #geom_point() +
+  geom_jitter() +
+  facet_wrap(.~sub_region_1) +
+  labs(x= "Date", y="Retail & Recreation (% Change)",
+       tag = "Figure 1",
+       title = "Google Mobility: Change over Time",
+       subtitle = "i.e., Retail & Recreation, early COVID-19 period (01/20 - 05/20)",
+       caption = "Google Mobility: Retail & Recreation (% Change) over early COVID period (01/20 - 05/20)") +
+  theme_bw(base_size = 12, base_family = "Arial")
+```
+
 ## Download cheatsheets on using various R packages
 [R Markdown](https://github.com/rstudio/cheatsheets/raw/master/rmarkdown.pdf)
 [Data Wrangling Cheatsheet](https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf)
@@ -190,4 +294,3 @@ ggplot(google_mobility_US_targeted %>%
 [String Manipulation](https://github.com/rstudio/cheatsheets/raw/master/strings.pdf)
 [Work with dates/times](https://github.com/rstudio/cheatsheets/raw/master/lubridate.pdf)
 [More cheatsheets](https://www.rstudio.com/resources/cheatsheets/)
-
