@@ -48,8 +48,13 @@ google_mobility <- read_csv("https://www.gstatic.com/covid19/mobility/Global_Mob
 
 # filter for US
 google_mobility_US <- google_mobility %>%
-  filter(country_region == "United States")
-
+  filter(country_region == "United States") %>%
+  mutate(dt_date = date) %>%
+  mutate(dt_month = lubridate::month(dt_date),
+         dt_year= lubridate::year(dt_date),
+         dt_day = lubridate::day(dt_date),
+         dt_wkday_l = lubridate::wday(dt_date, label=T),
+         dt_wkday_n = lubridate::wday(dt_date))
 
 ```
 
@@ -72,32 +77,44 @@ prop.table(table(is.na(google_mobility_US$sub_region_2)))
 prop.table(table(is.null(google_mobility_US$sub_region_2)))
 
 ```
+## Quick descriptives
 
+```{r}
 
-## Compute aggregates
+skimr::glance(google_mobility_US)
+
+```
+
+## Filter data
 ```{r}
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-# filter 
+# filter with specific entries
 google_mobility_US_NY <- google_mobility_US %>%
   filter(sub_region_1 == "New York")
 
-# add an additional column
-google_mobility_US_NY_cc <- google_mobility_US_NY %>%
-  mutate(dt_date = date) %>%
-  mutate(dt_month = lubridate::month(dt_date),
-         dt_year= lubridate::year(dt_date),
-         #dt_doy = lubridate::doy(dt_date),
-         dt_day = lubridate::day(dt_date),
-         dt_wkday_l = lubridate::wday(dt_date, label=T),
-         dt_wkday_n = lubridate::wday(dt_date))
+google_mobility_US_FL <- google_mobility_US %>%
+  filter(sub_region_1 == "Florida")
+
+
+# filter to a 'vector' of entries
+google_mobility_US_targeted <- google_mobility_US %>%
+  filter(sub_region_1 %in% c("California", "New York", "Florida"))
+
+```
+
+## Compute aggregates
+
+```{r}
 
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 # group data by weekday
-google_mobility_US_NY_cc_grouped <- google_mobility_US_NY_cc %>%
-  group_by(dt_wkday_l) %>%
-  summarise(avg_change = mean(parks_percent_change_from_baseline, na.rm=T))
+metrics_month_day_of_week <- google_mobility_US_targeted %>%
+  group_by(sub_region_1, dt_year, dt_month, dt_wkday_l) %>%
+  summarise(avg_change_parks = mean(parks_percent_change_from_baseline, na.rm=T),
+            avg_change_retail_rec = mean(retail_and_recreation_percent_change_from_baseline, na.rm=T),
+            avg_change_workplaces = mean(workplaces_percent_change_from_baseline, na.rm=T))
 
 # TODO: replicate above, with month
 # TODO: replicate above, with month, year
@@ -108,27 +125,62 @@ google_mobility_US_NY_cc_grouped <- google_mobility_US_NY_cc %>%
 
 ```{r}
 
-# plot grouped weekday data
-ggplot(google_mobility_US_NY_cc_grouped, aes(dt_wkday_l, avg_change)) +
-  geom_bar(stat="identity") +
-  theme_minimal()
+# plot grouped month data
+ggplot(metrics_month_day_of_week, aes(dt_month, avg_change_retail_rec)) +
+  #geom_point() +
+  geom_jitter() +
+  theme_minimal() +
+  facet_wrap(dt_year~.)
 
-# >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
-# rename current column to new name
-google_mobility_US_NY_cc_r <- google_mobility_US_NY %>%
-  rename(`dt_date` = "date")
-
-# when lubridate doesnt work, sometimes you need to 
-# manually re-type the data
-
-dt_qe <- "1991-05-16" 
-dt_qe_rd <- as.POSIXct(dt_qe)
-typeof(dt_qe)
-typeof(dt_qe_rd)
+ggplot(metrics_month_day_of_week, aes(dt_month, avg_change_retail_rec)) +
+  #geom_point() +
+  geom_jitter() +
+  theme_minimal() +
+  facet_wrap(sub_region_1 ~ dt_year, ncol = 2)
 
 ```
 
+```{r}
+ggplot(metrics_month_day_of_week, aes(dt_month, avg_change_workplaces)) +
+  #geom_point() +
+  geom_jitter() +
+  theme_minimal() +
+  facet_wrap(sub_region_1 ~ dt_year, ncol = 2)
+
+```
+
+# Styling your plots
+```{r}
+
+```
+
+
+# Combining multiple plots
+```{r}
+library(cowplot)
+
+# create a plot of weekly trends
+ggplot(google_mobility_US_targeted %>%
+         filter(dt_month == 3), aes(dt_date, 
+                                    retail_and_recreation_percent_change_from_baseline,
+                                    color=sub_region_1)) +
+  #geom_point() +
+  geom_jitter() +
+  theme_minimal() +
+  facet_wrap(dt_year~sub_region_1)
+  
+# create a plot of monthly trends
+
+
+# retail_and_recreation_percent_change_from_baseline = col_double(),
+#   grocery_and_pharmacy_percent_change_from_baseline = col_double(),
+#   parks_percent_change_from_baseline = col_double(),
+#   transit_stations_percent_change_from_baseline = col_double(),
+#   workplaces_percent_change_from_baseline = col_double(),
+#   residential_percent_change_from_baseline = col_double()
+
+```
 
 ## Download cheatsheets on using various R packages
 [R Markdown](https://github.com/rstudio/cheatsheets/raw/master/rmarkdown.pdf)
