@@ -45,8 +45,13 @@ library(tidyverse)
 # read in the Google Mobility dataset
 google_mobility <- read_csv("https://www.gstatic.com/covid19/mobility/Global_Mobility_Report.csv")
 
-#google_mobility_byregion = "https://www.gstatic.com/covid19/mobility/Region_Mobility_Report_CSVs.zip"
+```
 
+## Inspect dataset features
+
+```{r}
+nrow(google_mobility)
+ncol(google_mobility)
 ```
 
 ## Create lookup tables
@@ -59,6 +64,9 @@ state_lookup = tibble(sub_region_1 = state.name,
                       us_division = state.division,
                       us_region = state.region,
                       state_land_area = state.area)
+
+# for more state data, look at the following data object (data from 1970s)
+state.x77
 ```
 
 ## Pre-process data
@@ -211,6 +219,7 @@ jitter_retail
 smooth_retail
 smooth_parks
 ```
+[Click here to learn more about geom_smooth](https://ggplot2.tidyverse.org/reference/geom_smooth.html)
 
 # Combining multiple plots
 ```{r}
