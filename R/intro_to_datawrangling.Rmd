@@ -51,6 +51,8 @@ google_mobility <- read_csv("https://www.gstatic.com/covid19/mobility/Global_Mob
 
 ## Create lookup tables
 
+R, as well as some packages, have built in datasets. They can be called with the data() function (e.g., data(state)). We will leverage a built in dataset with state metadata.
+
 ```{r}
 data(state)
 state_lookup = tibble(sub_region_1 = state.name,
@@ -165,7 +167,7 @@ allUS_parks
 ```
 
 ```{r}
-ggplot(metrics_month_weekend_US, aes(dt_month_, 
+jitter_retail <- ggplot(metrics_month_weekend_US, aes(dt_month_, 
                                      avg_change_retail_rec, 
                                      group=us_region,
                                      color=us_region)) +
@@ -194,6 +196,7 @@ smooth_parks = ggplot(metrics_month_weekend_US, aes(dt_month_,
   theme_minimal() +
   labs(x="Month", y="Parks (% Change)")
 
+jitter_retail
 smooth_retail
 smooth_parks
 ```
@@ -259,7 +262,7 @@ cowplot::plot_grid(smooth_retail, smooth_parks, ncol=1)
 early_covid_period_data = google_mobility_US_w_lu %>%
          filter(dt_month %in% c(1,2,3,4,5,6)) %>%
          filter(dt_year == 2020) %>%
-         filter(sub_region_1 %in% c("New York", "California", "Florida", "Wyoming", "Texas", "Arizona")) 
+         filter(sub_region_1 %in% c("New York", "California", "Florida", "Wyoming", "Texas", "Arizona","Montana", "South Dakota", "Nevada")) 
 
 ```
 
@@ -267,13 +270,22 @@ early_covid_period_data = google_mobility_US_w_lu %>%
 
 ```{r}
 ggplot(early_covid_period_data, aes(dt_date, 
-                                    retail_and_recreation_percent_change_from_baseline,
+                                    parks_percent_change_from_baseline,
+                                    color=sub_region_1)) +
+  #geom_point() +
+  theme_void() +
+  geom_jitter() +
+  facet_wrap(.~sub_region_1) +
+  theme(legend.position = "none")
+
+ggplot(early_covid_period_data, aes(dt_date, 
+                                    parks_percent_change_from_baseline,
                                     color=sub_region_1)) +
   geom_jitter() +
   facet_wrap(.~sub_region_1)
 
 ggplot(early_covid_period_data, aes(dt_date, 
-                                    retail_and_recreation_percent_change_from_baseline,
+                                    parks_percent_change_from_baseline,
                                     color=sub_region_1)) +
   #geom_point() +
   theme_bw() +
@@ -281,28 +293,19 @@ ggplot(early_covid_period_data, aes(dt_date,
   facet_wrap(.~sub_region_1)
 
 ggplot(early_covid_period_data, aes(dt_date, 
-                                    retail_and_recreation_percent_change_from_baseline,
+                                    parks_percent_change_from_baseline,
                                     color=sub_region_1)) +
   #geom_point() +
   theme_dark() +
   geom_jitter() +
   facet_wrap(.~sub_region_1)
-
-ggplot(early_covid_period_data, aes(dt_date, 
-                                    retail_and_recreation_percent_change_from_baseline,
-                                    color=sub_region_1)) +
-  #geom_point() +
-  theme_void() +
-  geom_jitter() +
-  facet_wrap(.~sub_region_1) +
-  theme(legend.position = "none")
 ```
 
 # Production plot
 
 ```{r}
 ggplot(early_covid_period_data, aes(dt_date, 
-                                    retail_and_recreation_percent_change_from_baseline,
+                                    parks_percent_change_from_baseline,
                                     color=us_region)) +
   #geom_point() +
   theme_bw() +
@@ -313,17 +316,18 @@ ggplot(early_covid_period_data, aes(dt_date,
 
 ```{r}
 ggplot(early_covid_period_data, aes(dt_date, 
-                                    retail_and_recreation_percent_change_from_baseline,
+                                    parks_percent_change_from_baseline,
                                     color=us_region)) +
   #geom_point() +
   geom_jitter() +
   facet_wrap(.~sub_region_1) +
   labs(x= "Date", y="Retail & Recreation (% Change)") +
-  theme_bw(base_size = 16)
+  theme_bw(base_size = 16) +
+  theme(axis.text.x = element_text(angle=90))
 ```
 
 ```{r}
-ggplot(early_covid_period_data, aes(dt_date, 
+fig1 <- ggplot(early_covid_period_data, aes(dt_date, 
                                     retail_and_recreation_percent_change_from_baseline,
                                     color=us_region)) +
   #geom_point() +
@@ -338,7 +342,7 @@ ggplot(early_covid_period_data, aes(dt_date,
        caption = "Google Mobility: Retail & Recreation (% Change) over early COVID period (01/20 - 06/20)") +
   theme_bw(base_size = 12, base_family = "Arial")
 
-ggplot(early_covid_period_data, aes(dt_date, 
+fig2 <- ggplot(early_covid_period_data, aes(dt_date, 
                                     parks_percent_change_from_baseline,
                                     color=us_region)) +
   #geom_point() +
@@ -352,6 +356,35 @@ ggplot(early_covid_period_data, aes(dt_date,
        subtitle = "i.e., Parks, early COVID-19 period (01/20 - 06/20)",
        caption = "Google Mobility: Parks (% Change) over early COVID period (01/20 - 06/20)") +
   theme_bw(base_size = 12, base_family = "Arial")
+fig1
+fig2
+```
+
+```{r}
+
+largest_changes_parks_long <- google_mobility_US %>%
+  group_by(sub_region_1, dt_year) %>%
+  summarise(avg_change_parks = mean(parks_percent_change_from_baseline, na.rm=T)) %>%
+  arrange(sub_region_1)
+
+largest_changes_parks_wide <- largest_changes_parks_long %>%
+  #pivot_wider(id_cols=c())
+  pivot_wider(names_from = dt_year, values_from = avg_change_parks) %>%
+  mutate(change_2021_2020 = `2021` - `2020`)
+
+top10_changes <- largest_changes_parks_wide %>%
+  arrange(-change_2021_2020) %>%
+  head(n=10)
+
+bottom10_changes <- largest_changes_parks_wide %>%
+  arrange(change_2021_2020) %>%
+  head(n=10)
+
+largest_changes_parks_long
+largest_changes_parks_wide
+
+top10_changes
+bottom10_changes
 ```
 
 ## Download cheatsheets on using various R packages
