@@ -62,7 +62,10 @@ state_lookup = tibble(sub_region_1 = state.name,
 ```
 
 ## Pre-process data
- 
+
+  - filter data
+  - add meta-date features (month, year, day, etc)
+  
 ```{r}
 
 # >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -83,11 +86,16 @@ google_mobility_US <- google_mobility %>%
 
 ## Joining datasets
 
+  - Merge Google Mobility dataset with R data for US states
+
 ```{r}
 google_mobility_US_w_lu <- google_mobility_US %>%
   inner_join(state_lookup)
 ```
+
 ## Quick descriptives
+
+  - single line of code descriptives across a dataset
 
 ```{r}
 
@@ -96,6 +104,10 @@ google_mobility_US_w_lu <- google_mobility_US %>%
 ```
 
 ## Filter data
+
+  - filter with specific entries
+  - filter for a collection of entries
+
 ```{r}
 
 # filter with specific entries
