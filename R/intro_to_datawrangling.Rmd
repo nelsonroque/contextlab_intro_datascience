@@ -1,7 +1,7 @@
 ---
-title: "Intro to Data Wrangling - R"
+title: "Introduction to Data Wrangling & Visualization in R"
 author: "Nelson Roque"
-date: "9/20/2021"
+date: "9/24/2021"
 output: html_document
 ---
 
@@ -140,7 +140,6 @@ metrics_month_weekend_US <- google_mobility_US %>%
             avg_change_retail_rec = mean(retail_and_recreation_percent_change_from_baseline, na.rm=T),
             avg_change_workplaces = mean(workplaces_percent_change_from_baseline, na.rm=T)) %>%
   inner_join(state_lookup)
-metrics_month_day_of_week_targeted
 ```
 
 ## Visualize the data
@@ -262,7 +261,7 @@ cowplot::plot_grid(smooth_retail, smooth_parks, ncol=1)
 early_covid_period_data = google_mobility_US_w_lu %>%
          filter(dt_month %in% c(1,2,3,4,5,6)) %>%
          filter(dt_year == 2020) %>%
-         filter(sub_region_1 %in% c("New York", "California", "Florida", "Wyoming", "Texas", "Arizona","Montana", "South Dakota", "Nevada")) 
+         filter(sub_region_1 %in% c("New York", "California", "Florida", "Wyoming", "Texas", "Arizona","Montana", "South Dakota", "Nevada"))
 
 ```
 
@@ -388,10 +387,10 @@ bottom10_changes
 ```
 
 ## Download cheatsheets on using various R packages
-[R Markdown](https://github.com/rstudio/cheatsheets/raw/master/rmarkdown.pdf)
-[Data Wrangling Cheatsheet](https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf)
-[Data Transformation with dplyr](https://github.com/rstudio/cheatsheets/raw/master/data-visualization.pdf)
-[Data Import](https://github.com/rstudio/cheatsheets/raw/master/data-import.pdf)
-[String Manipulation](https://github.com/rstudio/cheatsheets/raw/master/strings.pdf)
-[Work with dates/times](https://github.com/rstudio/cheatsheets/raw/master/lubridate.pdf)
-[More cheatsheets](https://www.rstudio.com/resources/cheatsheets/)
+  - [R Markdown](https://github.com/rstudio/cheatsheets/raw/master/rmarkdown.pdf)
+  - [Data Wrangling Cheatsheet](https://www.rstudio.com/wp-content/uploads/2015/02/data-wrangling-cheatsheet.pdf)
+  - [Data Transformation with dplyr](https://github.com/rstudio/cheatsheets/raw/master/data-visualization.pdf)
+  - [Data Import](https://github.com/rstudio/cheatsheets/raw/master/data-import.pdf)
+  - [String Manipulation](https://github.com/rstudio/cheatsheets/raw/master/strings.pdf)
+  - [Work with dates/times](https://github.com/rstudio/cheatsheets/raw/master/lubridate.pdf)
+  - [More cheatsheets](https://www.rstudio.com/resources/cheatsheets/)
