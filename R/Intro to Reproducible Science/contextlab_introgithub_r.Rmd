@@ -70,32 +70,29 @@ Open Science Collaboration. 2015. “Estimating the Reproducibility of Psycholog
 
 A platform to store and collaborate on code. Basic concepts:
 
-  - Repository
-    - a logical unit of storage for maintaining code/other assets. Can contain many folders, files.
-  - .gitignore
-    - a file (with dot prefix) to specify what files should NOT be pushed to Github
-  - .gitkeep
-    - a file (with dot prefix) to specify that a folder should be kept if blank as part of the project structure. This is helpful when creating templates.
-  - 'commit'
-    - create a record/snapshot of all files (or specific files) at a moment in time. You may tag collaborators, add a title and notes.
-  - 'push'
-    - 'storing' the result of prior commits
-  - 'pull'
-    - 'extracting' the result of prior commits
-  - 'diff'
-    - difference (line-specific) between two commits. Helpful when trying to remember when and where code edits where made.
+  - Repository: a logical unit of storage for maintaining code/other assets. Can contain many folders, files.
+  - .gitignore: a file (with dot prefix) to specify what files should NOT be pushed to Github
+  - .gitkeep: a file (with dot prefix) to specify that a folder should be kept if blank as part of the project structure. This is helpful when creating templates.
+  - 'commit': create a record/snapshot of all files (or specific files) at a moment in time. You may tag collaborators, add a title and notes.
+  - 'push': 'storing' the result of prior commits
+  - 'pull': 'extracting' the result of prior commits
+  - 'diff': difference (line-specific) between two commits. Helpful when trying to remember when and where code edits where made.
 
+[Get Github Desktop](https://desktop.github.com/)
+[Get Github Cheatsheets](https://training.github.com/downloads/github-git-cheat-sheet/)
 ---
 
 # What is R? 
 
+Statistical programming language. Followed S
+
 ## What is RStudio?
 
-IDE for R
+Integrated development environment (IDE) for R
 
 ## What is RMarkdown?
 
-Reproducible notebook (akin to Jupyter Notebooks in Python) where you can write a narrative using Markdown syntax
+Reproducible notebook (akin to Jupyter Notebooks in Python) where you can write a narrative using Markdown syntax and embed code/plots throughout.
 
 ---
 
@@ -139,7 +136,13 @@ Here is a [guide from the UCF library with installation links](https://guides.uc
 
 ---
 
-# Interested in learning more?
+# Interested in learning more R?
+
+[There's a Github repo for that!](https://github.com/nelsonroque/contextlab_intro_datascience)
+
+---
+
+# Intro to Reproducible Science: A Summer Workshop
 
 The Context Lab at UCF (https://sciences.ucf.edu/psychology/contextlab/) is gauging interest in a Github + R workshop over Summer 2022. 
 
