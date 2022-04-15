@@ -1,0 +1,88 @@
+---
+title: "Intro to Reproducible Science: Github, R"
+author: "Nelson Roque, PhD"
+date: '2022-04-15'
+output: slidy_presentation
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = FALSE)
+```
+
+# Intro to Reproducible Science: Github, R
+
+https://sciences.ucf.edu/psychology/contextlab/
+
+---
+
+## Overview
+
+- What is reproducible science? Why should you care?
+- What is Github?
+- What is R? 
+- What is RMarkdown?
+- What is Endnote?
+- Using Github to pull/push code
+- Intro to R syntax + packages
+- Resources
+
+---
+
+# What is reproducible science?
+
+## Why should you care?
+
+---
+
+- What is Github?
+
+---
+
+## What is R? 
+
+### What is RStudio?
+
+### What is RMarkdown?
+
+---
+
+## R Markdown
+
+This is an R Markdown presentation. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document.
+
+---
+
+## What is Endnote?
+
+A citation manager for research projects. 
+
+Here is a [guide from the UCF library with installation links](https://guides.ucf.edu/citations-endnote).
+
+Downloads:
+  - [Mac](http://ezproxy.library.ucf.edu/loggedin/EndNote20SiteInstaller.zip)
+  - [Windows](http://ezproxy.library.ucf.edu/loggedin/EndNote20.zip)
+
+---
+
+## Why Endnote?
+  - no need for manual tracking of references
+  - change citation format at click of a button
+  - capture PDFs for any citations at click of a button
+
+---
+
+# Interested in learning more?
+
+The Context Lab at UCF (https://sciences.ucf.edu/psychology/contextlab/) is gauging interest in a Github + R workshop over Summer 2022. 
+
+Please fill out this form if interested in attending. 
+
+If you know someone that is interested in attending, please feel free to share this form.
+<br>
+<img src="images/workshop_qr.png" height="300px" width="300px">
+
+---
+
+# Resources

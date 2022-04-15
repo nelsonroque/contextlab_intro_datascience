@@ -1,0 +1,45 @@
+library(tidyverse)
+
+# load data ----
+cogbot_d = jsonlite::read_json("https://cogtasks.com//x/cogbot/data.json")
+
+# separate data ----
+keystroke_df = tibble(cogbot_d$keystrokes)
+message_df = tibble(cogbot_d$messages)
+
+# pre-process data ----
+message_pp = message_df %>% 
+  separate(`cogbot_d$messages`,
+           sep = ",",
+           into = c("ts", "session_uuid", "msg_uuid", "msg_id", "sender", "msg")) %>%
+  mutate(ts_c = anytime::anytime(gsub('"', "", gsub("\\[", "", ts)))) %>%
+  select(-ts) %>%
+  select(ts_c, everything())
+
+keystroke_pp = keystroke_df %>%
+  separate(`cogbot_d$keystrokes`,
+           sep = ",",
+           into = c("ts", "session_uuid", "msg_uuid", "event_uuid",
+                    "e_ts", "e_loc", "e_key", "e_type", "e_keycode",
+                    "e_which", "e_ctrlkey", "e_shiftkey", "e_altkey", "e_metakey",
+                    "e_repeat")) %>%
+  mutate(e_ts_c = as.numeric(e_ts)) %>%
+  mutate(ts_c = anytime::anytime(gsub('"', "", gsub("\\[", "", ts)))) %>%
+  select(-ts) %>%
+  select(ts_c, everything())
+
+# merge dataframes ----
+
+both_pp = keystroke_pp %>%
+  full_join(message_pp, by=c("session_uuid", "msg_uuid"))
+
+ggplot(both_pp, aes(e_ts_c, e_key)) + 
+  geom_point() +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle=90))
+
+ggplot(both_pp, aes(e_ts_c, e_key)) + 
+  geom_point() +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle=90)) + 
+  facet_grid(.~msg)
