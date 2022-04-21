@@ -1,7 +1,10 @@
 # Introduction to Reproducible Science
 
-Author: Nelson Roque, PhD [nelson.roque@ucf.edu](nelson.roque@ucf.edu)
+Author: Nelson Roque, PhD
+[nelson.roque@ucf.edu](nelson.roque@ucf.edu)
 Director of the Context Lab at University of Central Florida
+
+-----
 
 ## Mission
 Make available a set of open-source materials to learn how to engage in reproducible science, leveraging code-based techniques.
