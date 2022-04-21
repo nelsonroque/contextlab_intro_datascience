@@ -66,11 +66,23 @@ Open Science Collaboration. 2015. “Estimating the Reproducibility of Psycholog
 
 ---
 
+# Reproducible Science Tools
+
+- R
+- Latex, Markdown
+- Python
+- Github
+- Docker, VMs
+- AWS CDK
+
+---
+
 # What is Github?
 
 A platform to store and collaborate on code.
 
 [Get Github Desktop](https://desktop.github.com/)
+
 [Get Github Cheatsheets](https://training.github.com/downloads/github-git-cheat-sheet/)
 
 ---
