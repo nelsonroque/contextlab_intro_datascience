@@ -1,8 +1,10 @@
 ---
-title: "Intro to Reproducible Science: Github, R"
+title: 'Intro to Reproducible Science: Github, R'
 author: "Nelson Roque, PhD"
 date: '2022-04-15'
-output: slidy_presentation
+output:
+  slidy_presentation: default
+  beamer_presentation: default
 ---
 
 ```{r setup, include=FALSE}
@@ -101,11 +103,15 @@ A platform to store and collaborate on code.
 
 # What is R? 
 
-Statistical programming language. Similar to `S`
+Statistical programming language (released ~1993). Similar to `S` (released ~1976)
+
+Download [R](https://cran.r-project.org/)
 
 ## What is RStudio?
 
-Integrated development environment (IDE) for R
+Integrated development environment (IDE) for R.
+
+Download [RStudio](https://www.rstudio.com/products/rstudio/download/)
 
 ## What is RMarkdown?
 
@@ -115,7 +121,8 @@ Reproducible notebook (akin to Jupyter Notebooks in Python) where you can write 
 
 # What are R packages?
 
-Think of the iOS App Store, or Google Play Store - that is the equivalent of CRAN - where you download published R packages.
+Think of CRAN as an equivalent to iOS App Store, or Google Play Store
+  - CRAN is where you download published R packages (directly from R, RStudio).
 
 A developer can also make packages available directly in source code, or via tools like Github, for example:
 
@@ -126,7 +133,7 @@ devtools::install_github("nelsonroque/ruf")
 
 ---
 
-## R Markdown
+# R Markdown
 
 This is an R Markdown presentation. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
 
