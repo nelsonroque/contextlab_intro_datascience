@@ -9,9 +9,9 @@ Make available a set of open-source materials to learn how to engage in reproduc
 - [Intro to Reproducible Science](modules/general/Intro%20to%20Reproducible%20Science/)
 
 ### R
-- [Intro to Data Wrangling](modules/R/Intro%20to%20Data Wrangling/README.md)
-- [Intro to Predictive Modeling](modules/R/Intro%20to%20Predictive%20Modeling/README.md)
-- [Working with Keystroke data](modules/R/Working with Keystroke data/README.md)
+- [Intro to Data Wrangling](modules/R/Intro%20to%20Data Wrangling/)
+- [Intro to Predictive Modeling](modules/R/Intro%20to%20Predictive%20Modeling/
+- [Working with Keystroke data](modules/R/Working with Keystroke data/)
 - [Intro to Text Mining - {Coming soon}]
 
 ## Future Directions
