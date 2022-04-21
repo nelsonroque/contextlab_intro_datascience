@@ -84,7 +84,7 @@ A platform to store and collaborate on code. Basic concepts:
 
 # What is R? 
 
-Statistical programming language. Followed S
+Statistical programming language. Similar to `S`
 
 ## What is RStudio?
 
