@@ -68,7 +68,14 @@ Open Science Collaboration. 2015. “Estimating the Reproducibility of Psycholog
 
 # What is Github?
 
-A platform to store and collaborate on code. Basic concepts:
+A platform to store and collaborate on code.
+
+[Get Github Desktop](https://desktop.github.com/)
+[Get Github Cheatsheets](https://training.github.com/downloads/github-git-cheat-sheet/)
+
+---
+
+# Github Concepts:
 
   - Repository: a logical unit of storage for maintaining code/other assets. Can contain many folders, files.
   - .gitignore: a file (with dot prefix) to specify what files should NOT be pushed to Github
@@ -78,8 +85,6 @@ A platform to store and collaborate on code. Basic concepts:
   - 'pull': 'extracting' the result of prior commits
   - 'diff': difference (line-specific) between two commits. Helpful when trying to remember when and where code edits where made.
 
-[Get Github Desktop](https://desktop.github.com/)
-[Get Github Cheatsheets](https://training.github.com/downloads/github-git-cheat-sheet/)
 ---
 
 # What is R? 
