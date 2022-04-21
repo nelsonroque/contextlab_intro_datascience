@@ -1,4 +1,7 @@
-# Context Lab: Introduction to Reproducible Science
+# Introduction to Reproducible Science
+
+Author: Nelson Roque, PhD [nelson.roque@ucf.edu](nelson.roque@ucf.edu)
+Director of the Context Lab at University of Central Florida
 
 ## Mission
 Make available a set of open-source materials to learn how to engage in reproducible science, leveraging code-based techniques.
@@ -14,11 +17,10 @@ This repository is intended to house various sample workflows, and code snippets
 - [Intro to Data Wrangling](modules/R/Intro%20to%20Data%20Wrangling/)
 - [Intro to Predictive Modeling](modules/R/Intro%20to%20Predictive%20Modeling/)
 - [Working with Keystroke data](modules/R/Working%20with%20Keystroke%20Data/)
-- [Intro to Text Mining - {Coming soon}]
 
 ## Future Directions
 - Tutorials regarding processing of text, image, video, and sensor data.
-    - Introduction to Text Mining
+    - Intro to Text Mining in R
     - Interacting with APIs
     - Working with Image Data
     - Geocoding address data
