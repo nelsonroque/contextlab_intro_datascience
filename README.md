@@ -6,7 +6,7 @@ Make available a set of open-source materials to learn how to engage in reproduc
 ## Modules
 
 ### General
-- [Intro to Reproducible Science]('general/Intro to Reproducible Science/contextlab_introgithub_r.html')
+- [Intro to Reproducible Science]('modules/general/Intro%20to%20Reproducible%20Science/contextlab_introgithub_r.html')
 
 ### R
 - [Intro to Data Wrangling]('modules/R/Intro to Data Wrangling/README.md')
