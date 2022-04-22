@@ -4,8 +4,7 @@ author: "Nelson Roque, PhD"
 date: '2022-04-15'
 output:
   slidy_presentation: default
-  beamer_presentation: default
-  ioslides_presentation: default
+  css: style.css
 ---
 
 ```{r setup, include=FALSE}
@@ -104,13 +103,13 @@ A platform to store and collaborate on code.
 
 # Github Concepts:
 
-  - Repository: a logical unit of storage for maintaining code/other assets. Can contain many folders, files.
-  - .gitignore: a file (with dot prefix) to specify what files should NOT be pushed to Github
-  - .gitkeep: a file (with dot prefix) to specify that a folder should be kept if blank as part of the project structure. This is helpful when creating templates.
-  - 'commit': create a record/snapshot of all files (or specific files) at a moment in time. You may tag collaborators, add a title and notes.
-  - 'push': 'storing' the result of prior commits
-  - 'pull': 'extracting' the result of prior commits
-  - 'diff': difference (line-specific) between two commits. Helpful when trying to remember when and where code edits where made.
+  - `Repository`: a logical unit of storage for maintaining code/other assets. Can contain many folders, files.
+  - `.gitignore`: a file (with dot prefix) to specify what files should NOT be pushed to Github
+  - `.gitkeep`: a file (with dot prefix) to specify that a folder should be kept if blank as part of the project structure. This is helpful when creating templates.
+  - `commit`: create a record/snapshot of all files (or specific files) at a moment in time. You may tag collaborators, add a title and notes.
+  - `push`: 'storing' the result of prior commits
+  - `pull`: 'extracting' the result of prior commits
+  - `diff`: difference (line-specific) between two commits. Helpful when trying to remember when and where code edits where made.
 
 ---
 

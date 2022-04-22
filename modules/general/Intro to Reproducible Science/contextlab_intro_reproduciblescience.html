@@ -8,14 +8,25 @@
   <meta name="author" content="Nelson Roque, PhD" />
   <meta name="date" content="2022-04-15" />
   <title>Intro to Reproducible Science: Github, R</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@100;300;400;500;600;700&display=swap" rel="stylesheet">
   <style type="text/css">
+ 
     code{white-space: pre-wrap;}
     span.smallcaps{font-variant: small-caps;}
     span.underline{text-decoration: underline;}
     div.column{display: inline-block; vertical-align: top; width: 50%;}
     div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
     ul.task-list{list-style: none;}
-              </style>
+    h1, h2, h3, h4, h5, h6, ul, li, a, p {
+  font-family: 'Roboto Mono', monospace;
+}
+
+a:active, a:hover, a:visited {
+  color: red;
+}
+  </style>
   <script>// Pandoc 2.9 adds attributes on both header and div. We remove the former (to
 // be compatible with the behavior of Pandoc < 2.8).
 document.addEventListener('DOMContentLoaded', function(e) {
@@ -403,7 +414,11 @@ Nelson Roque, PhD
 <div id="intro-to-reproducible-science-overview" class="slide section level1">
 <h1>Intro to Reproducible Science: Overview</h1>
 <ul>
-<li>What is reproducible science? Why should you care?</li>
+<li>What is reproducible science? Why should you care?
+<ul>
+<li>FAIR Principles</li>
+<li>Tools and Platforms</li>
+</ul></li>
 <li>What is R?</li>
 <li>What is RMarkdown?</li>
 <li>What is Endnote?</li>
@@ -456,15 +471,25 @@ can be replicated and/or combined in different settings.”</p>
 the FAIR Principles</a> <a href="https://www.go-fair.org/wp-content/uploads/2022/01/FAIRPrinciples_overview.pdf">FAIR
 Principles Info PDF</a></p>
 </div>
-<div id="reproducible-science-tools" class="slide section level1">
-<h1>Reproducible Science Tools</h1>
+<div id="reproducible-science-tools-platforms" class="slide section level1">
+<h1>Reproducible Science Tools &amp; Platforms</h1>
 <ul>
 <li>R</li>
 <li>Latex, Markdown</li>
-<li>Python</li>
-<li>Github</li>
+<li>Python, Anaconda</li>
+<li>Github, <a href="https://pages.github.com/">Github Pages</a></li>
 <li>Docker, VMs</li>
-<li>AWS CDK</li>
+<li>Infrastructure as Code (IaC; e.g., AWS CDK)</li>
+<li>IDEs (e.g., Visual Studio Code)</li>
+<li>Open Science Framework</li>
+<li><a href="https://docusaurus.io">Docusaurus</a></li>
+</ul>
+</div>
+<div id="activity" class="slide section level1">
+<h1>Activity</h1>
+<ul>
+<li>Which tools have you previously used?</li>
+<li>Which tools are you most excited to learn?</li>
 </ul>
 </div>
 <div id="what-is-github" class="slide section level1">
@@ -477,20 +502,21 @@ Github Cheatsheets</a></p>
 <div id="github-concepts" class="slide section level1">
 <h1>Github Concepts:</h1>
 <ul>
-<li>Repository: a logical unit of storage for maintaining code/other
-assets. Can contain many folders, files.</li>
-<li>.gitignore: a file (with dot prefix) to specify what files should
-NOT be pushed to Github</li>
-<li>.gitkeep: a file (with dot prefix) to specify that a folder should
-be kept if blank as part of the project structure. This is helpful when
-creating templates.</li>
-<li>‘commit’: create a record/snapshot of all files (or specific files)
-at a moment in time. You may tag collaborators, add a title and
-notes.</li>
-<li>‘push’: ‘storing’ the result of prior commits</li>
-<li>‘pull’: ‘extracting’ the result of prior commits</li>
-<li>‘diff’: difference (line-specific) between two commits. Helpful when
-trying to remember when and where code edits where made.</li>
+<li><code>Repository</code>: a logical unit of storage for maintaining
+code/other assets. Can contain many folders, files.</li>
+<li><code>.gitignore</code>: a file (with dot prefix) to specify what
+files should NOT be pushed to Github</li>
+<li><code>.gitkeep</code>: a file (with dot prefix) to specify that a
+folder should be kept if blank as part of the project structure. This is
+helpful when creating templates.</li>
+<li><code>commit</code>: create a record/snapshot of all files (or
+specific files) at a moment in time. You may tag collaborators, add a
+title and notes.</li>
+<li><code>push</code>: ‘storing’ the result of prior commits</li>
+<li><code>pull</code>: ‘extracting’ the result of prior commits</li>
+<li><code>diff</code>: difference (line-specific) between two commits.
+Helpful when trying to remember when and where code edits where
+made.</li>
 </ul>
 </div>
 <div id="what-is-r" class="slide section level1">
