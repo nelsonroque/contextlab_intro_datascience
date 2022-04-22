@@ -1,7 +1,7 @@
 ---
-title: 'Intro to Reproducible Science: Github, R'
+title: 'Intro to Reproducible Science'
 author: "Nelson Roque, PhD"
-date: '2022-04-15'
+date: '2022-04-22'
 output:
   slidy_presentation: default
   css: style.css
@@ -24,7 +24,6 @@ knitr::opts_chunk$set(echo = FALSE)
 - What is Github?
 - Using Github to pull/push code
 - Hands On: Intro to R syntax + packages
-- Workshop Plug
 - Resources
 
 ---
