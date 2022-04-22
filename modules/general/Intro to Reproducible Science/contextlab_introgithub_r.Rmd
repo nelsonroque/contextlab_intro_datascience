@@ -17,6 +17,8 @@ knitr::opts_chunk$set(echo = FALSE)
 # Intro to Reproducible Science: Overview
 
 - What is reproducible science? Why should you care?
+  - FAIR Principles
+  - Tools and Platforms
 - What is R? 
 - What is RMarkdown?
 - What is Endnote?
@@ -69,14 +71,24 @@ Open Science Collaboration. 2015. “Estimating the Reproducibility of Psycholog
 
 ---
 
-# Reproducible Science Tools
+# Reproducible Science Tools & Platforms
 
 - R
 - Latex, Markdown
-- Python
-- Github
+- Python, Anaconda
+- Github, [Github Pages](https://pages.github.com/)
 - Docker, VMs
-- AWS CDK
+- Infrastructure as Code (IaC; e.g., AWS CDK)
+- IDEs (e.g., Visual Studio Code)
+- Open Science Framework
+- [Docusaurus](https://docusaurus.io)
+
+---
+
+# Activity
+
+- Which tools have you previously used?
+- Which tools are you most excited to learn?
 
 ---
 
