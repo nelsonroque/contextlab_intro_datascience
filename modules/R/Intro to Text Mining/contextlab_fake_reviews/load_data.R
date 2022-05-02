@@ -65,9 +65,27 @@ wordcloud::wordcloud(words = section_fr_1_tf_idf %>% pull(word1),
 # sentiment analysis ----
 AFINN <- get_sentiments("afinn")
 
+# more options ---
+# get_sentiments(lexicon = c("bing", "afinn", "loughran", "nrc"))
+
 sent_words <- section_freeresponse_tokens %>%
-  inner_join(AFINN, by = c(word2 = "word")) %>%
-  count(word2, value, sort = TRUE)
+  inner_join(AFINN, by = c(word2 = "word"))
+
+count_words_by_sent = sent_words %>%
+  count(category, value, sort = TRUE)
+
+ggplot(count_words_by_sent, aes(n)) +
+  geom_histogram() +
+  facet_grid(.~category)
+
+avg_sent_by_category = sent_words %>%
+ group_by(category) %>%
+  summarise(avg_sent = mean(value, na.rm=T),
+            sd_sent = sd(value, na.rm=T))
+
+ggplot(avg_sent_by_category, aes(category, avg_sent)) +
+  geom_bar(stat="identity")
+
 
 # %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
