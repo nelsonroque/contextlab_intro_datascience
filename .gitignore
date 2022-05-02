@@ -36,3 +36,4 @@ vignettes/*.pdf
 rsconnect/
 .DS_Store
 R/env.RData
+modules/R/Intro to Text Mining/contextlab_fake_reviews/fake reviews dataset.csv
