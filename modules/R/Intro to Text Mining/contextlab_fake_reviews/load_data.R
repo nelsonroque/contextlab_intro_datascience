@@ -68,9 +68,13 @@ AFINN <- get_sentiments("afinn")
 # more options ---
 # get_sentiments(lexicon = c("bing", "afinn", "loughran", "nrc"))
 
+# %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+# merge sentiment with dataset ----
 sent_words <- section_freeresponse_tokens %>%
   inner_join(AFINN, by = c(word2 = "word"))
 
+# produce various aggregates of sentiment ----
 count_words_by_sent = sent_words %>%
   count(category, value, sort = TRUE)
 
