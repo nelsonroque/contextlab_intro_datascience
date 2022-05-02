@@ -5,20 +5,27 @@ library(textdata)
 library(topicmodels)
 library(wordcloud)
 library(ggwordcloud)
+
 # %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 # load full survey ----
 # data source (https://osf.io/tyue9/)
-df <- read_csv("fake reviews dataset.csv") %>%
+df <- readr::read_csv("fake reviews dataset.csv") %>%
   mutate(id = row_number()) %>% # add row id
-  select(id, everything())
+  select(id, category, everything())
 
 # %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 # data quality report ----
-df_dq = skimr::skim(df)
+df_dq <- skimr::skim(df)
 
 # %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+# get proportion of stop_words by lexicon ----
+prop.table(table(stop_words$lexicon))
+
+stop_words_filt = stop_words %>%
+  filter(word != "better")
 
 # text mining analyses ----
 section_freeresponse_tokens = df %>%
@@ -28,8 +35,8 @@ section_freeresponse_tokens = df %>%
                 n = 2,
                 drop = F) %>%
   separate(bigram, c("word1", "word2"), sep = " ", remove=F) %>%
-  filter(!word1 %in% stop_words$word) %>%
-  filter(!word2 %in% stop_words$word)
+  filter(!word1 %in% stop_words_filt$word) %>%
+  filter(!word2 %in% stop_words_filt$word)
 
 # %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
@@ -39,10 +46,12 @@ section_fr_1_tf_idf = section_freeresponse_tokens %>%
   bind_tf_idf(word1, category, n) %>%
   arrange(desc(tf_idf))
 
+unique(df$category)
+
 # vis tf_idf ----
 section_fr_1_tf_idf %>%
   group_by(category) %>%
-  slice_max(tf_idf, n = 5) %>%
+  slice_max(tf_idf, n = 2) %>%
   ungroup() %>%
   ggplot(aes(tf_idf, fct_reorder(word1, tf_idf), fill = category)) +
   geom_col(show.legend = FALSE) +
@@ -55,7 +64,7 @@ section_fr_1_tf_idf %>%
 # https://towardsdatascience.com/create-a-word-cloud-with-r-bde3e7422e8a
 wordcloud::wordcloud(words = section_fr_1_tf_idf %>% pull(word1),
                      freq = section_fr_1_tf_idf %>% pull(n),
-                     min.freq = 3,
+                     min.freq = 300,
                      max.words=200,
                      random.order=FALSE,
                      rot.per=0.1)
@@ -72,14 +81,18 @@ AFINN <- get_sentiments("afinn")
 
 # merge sentiment with dataset ----
 sent_words <- section_freeresponse_tokens %>%
-  inner_join(AFINN, by = c(word2 = "word"))
+  inner_join(AFINN, by = c(word1 = "word"))
+
+sent_words_fj <- section_freeresponse_tokens %>%
+  full_join(AFINN, by = c(word1 = "word"))
 
 # produce various aggregates of sentiment ----
 count_words_by_sent = sent_words %>%
-  count(category, value, sort = TRUE)
+  count(category, value, sort = TRUE) %>%
+  mutate(n_cut = cut(n, c(0,500,3000,Inf)))
 
-ggplot(count_words_by_sent, aes(n)) +
-  geom_histogram() +
+ggplot(count_words_by_sent, aes(value, n_cut)) +
+  geom_tile() +
   facet_grid(.~category)
 
 avg_sent_by_category = sent_words %>%
@@ -87,17 +100,23 @@ avg_sent_by_category = sent_words %>%
   summarise(avg_sent = mean(value, na.rm=T),
             sd_sent = sd(value, na.rm=T))
 
-ggplot(avg_sent_by_category, aes(category, avg_sent)) +
-  geom_bar(stat="identity")
+mv = ggplot(avg_sent_by_category, aes(category, avg_sent)) +
+  geom_bar(stat="identity") +
+  theme(axis.text.x = element_text(angle=90))
 
+sv = ggplot(avg_sent_by_category, aes(category, sd_sent)) +
+  geom_bar(stat="identity") +
+  theme(axis.text.x = element_text(angle=90))
+
+cowplot::plot_grid(mv, sv, ncol=2)
 
 # %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 # topic modeling analysis ----
 # Resource: https://www.tidytextmining.com/topicmodeling.html
 
-# ap_data = section_freeresponse_tokens %>%
-#   cast_dtm(text_, word1, n)
+ap_data = section_freeresponse_tokens %>%
+  cast_dtm(text_, word1, n)
 # 
 # ap_lda <- LDA(ap_data, k = 2, control = list(seed = 1234))
 # ap_topics <- tidy(ap_lda, matrix = "beta")
